@@ -56,6 +56,9 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.estimatedRowHeight = 54.0;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.tableView];
@@ -80,7 +83,7 @@
     
     self.bottomConstraint = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.inputView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
     self.bottomConstraint.active = YES;
-    
+    [self.view updateConstraintsIfNeeded];
     if (self.initialCommand.length)
     {
         [self.inputView setText:self.initialCommand];
@@ -166,13 +169,6 @@
     }
     
     return datasource[indexPath.row];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    WBWebViewConsoleMessage * message = [self messageAtIndexPath:indexPath];
-    
-    return [WBWebViewConsoleMessageCell rowHeightOfDataObject:message tableView:tableView];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -304,3 +300,4 @@
 }
 
 @end
+

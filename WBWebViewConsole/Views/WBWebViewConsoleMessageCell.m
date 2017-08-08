@@ -39,29 +39,35 @@
         self.selectedBackgroundView = selectionView;
         
         self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.messageLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.messageLabel.font = [[self class] messageFont];
         self.messageLabel.textColor = [UIColor blackColor];
         self.messageLabel.backgroundColor = [UIColor clearColor];
         self.messageLabel.numberOfLines = 0;
-        self.messageLabel.wbtWidth = [UIScreen mainScreen].bounds.size.width - 40;
 //        self.messageLabel.lineBreakMode = NSLineBreakByCharWrapping;
         
         [self.contentView addSubview:self.messageLabel];
         
         self.iconImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
         self.iconImageView.contentMode = UIViewContentModeCenter;
         self.iconImageView.backgroundColor = [UIColor clearColor];
         
         [self.contentView addSubview:self.iconImageView];
         
         self.callerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.callerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.callerLabel.font = [[self class] messageFont];
         self.callerLabel.backgroundColor = [UIColor clearColor];
         self.callerLabel.numberOfLines = 0;
-        self.callerLabel.wbtWidth = [UIScreen mainScreen].bounds.size.width - 40;
 //        self.callerLabel.lineBreakMode = NSLineBreakByCharWrapping;
         
         [self.contentView addSubview:self.callerLabel];
+        
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[iconImageView(30)][messageLabel]-10-|" options:0 metrics:nil views:@{@"iconImageView":self.iconImageView, @"messageLabel":self.messageLabel}]];
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[iconImageView(24)]" options:0 metrics:nil views:@{@"iconImageView":self.iconImageView}]];
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[messageLabel(>=12)]-2-[callerLabel(>=12)]-5-|" options:NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:nil views:@{@"messageLabel":self.messageLabel, @"callerLabel":self.callerLabel}]];
+        
     }
     return self;
 }
@@ -93,7 +99,7 @@
     
     UIFont * font = [self messageFont];
     
-    CGFloat messageHeight = ceil([message.message sizeWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping].height);
+    CGFloat messageHeight = ceil([message.message boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingUsesLineFragmentOrigin attributes:nil context:nil].size.height);
     height += messageHeight;
     
     NSString * caller = message.caller;
@@ -108,15 +114,6 @@
     height += 5; // bottom padding
     
     return height;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    self.messageLabel.frame = CGRectMake(30, 5, self.frame.size.width - 40, self.messageLabel.wbtHeight);
-    self.callerLabel.frame = CGRectMake(30, self.messageLabel.wbtBottom + 2, self.frame.size.width - 40, self.callerLabel.wbtHeight);
-    self.iconImageView.frame = CGRectMake(0, 0, 30, 24);
 }
 
 //- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
