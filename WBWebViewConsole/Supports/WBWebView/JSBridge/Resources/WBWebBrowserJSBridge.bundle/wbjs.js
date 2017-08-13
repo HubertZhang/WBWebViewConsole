@@ -54,7 +54,18 @@
                 }
 
                 _messageQueue.push(message);
-                location.href = _invokeScheme;
+                // Listen for DOMContentLoaded and notify our channel subscribers.
+                if (document.readyState == 'complete' || document.readyState == 'interactive') {
+                    location.href = _invokeScheme;
+                } else {
+                    document.addEventListener('DOMContentLoaded', function () {
+                        if(_messageQueue.length > 0) {
+                                setTimeout(function(){
+                                    location.href = _invokeScheme;
+                                }, 3000);
+                        }
+                    }, false);
+                }
             },
 
             _messageQueue: function () {
