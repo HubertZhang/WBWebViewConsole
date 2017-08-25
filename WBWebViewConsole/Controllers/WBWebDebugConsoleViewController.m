@@ -130,7 +130,7 @@
     
     [self.view layoutIfNeeded];
     [UIView animateWithDuration:0.25 animations:^{
-        self.bottomConstraint.constant = MAX(bottomHeight - (self.view.window.wbtHeight - keyboardHeight), 0);
+        self.bottomConstraint.constant = MAX(keyboardHeight - MAX(self.view.window.wbtHeight - bottomHeight, 0), 0);
         [self.view layoutIfNeeded];
     }];
 }
@@ -292,9 +292,9 @@
     CGRect absolutePosition = [self.view convertRect:self.view.bounds toView:self.view.window];
     
     CGFloat bottomHeight = CGRectGetMaxY(absolutePosition);
-    
+
     [UIView animateWithDuration:0.25 animations:^{
-        self.bottomConstraint.constant = MAX(bottomHeight - (self.view.window.wbtHeight - keyboardHeight), 0);
+        self.bottomConstraint.constant = MAX(keyboardHeight - MAX(self.view.window.wbtHeight - bottomHeight, 0), 0);
         [self.view layoutIfNeeded];
     }];
 }
