@@ -76,6 +76,7 @@ NSUInteger const WBWebViewConsoleInputMaxHistorySize = 30;
         self.textView = [[WBTextView alloc] initWithFrame:CGRectZero];
         self.textView.autocorrectionType = UITextAutocorrectionTypeNo;
         self.textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        self.textView.keyboardType = UIKeyboardTypeASCIICapable
         self.textView.returnKeyType = UIReturnKeyGo;
         self.textView.delegate = self;
         [self addSubview:self.textView];
